@@ -12,12 +12,35 @@ int main(){
 	
 	for (i = 0; i < 5; i++){
 		printf("|");
-			
-		for (j = 1; j < 49; j++){
-			
-			printf(" ");
-		} 
 		
+		if (i == 2){
+			for (j = 0; j < 10; j++){
+				printf(" ");
+			}
+			
+			printf("SPACE INVADERS - Por Mr. JeeJ");
+			
+			for (j = 0; j < 9; j++){
+				printf(" ");
+			}
+		} else {
+			if (i == 3){
+				for (j = 0; j < 12; j++){
+					printf(" ");
+				}
+				
+				printf("Aperte ENTER para comecar");
+				
+				for (j = 0; j < 11; j++){
+					printf(" ");
+				}	
+			} else {
+				for (j = 1; j < 49; j++){		
+					printf(" ");
+				}
+			}		 	
+		}
+			
 		printf("|\n");
 	}
 	
