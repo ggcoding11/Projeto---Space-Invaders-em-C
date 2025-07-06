@@ -1,8 +1,27 @@
 #include <stdio.h>
+#include <conio.h> //Só pro windows mané
+#include <windows.h> //Também só pra windows
+
+void imprimirTelaInicio();
+
+int iniciarJogo();
 
 int main(){
-	int i;
-	int j;
+	imprimirTelaInicio();
+	
+	int tecla;
+	
+	do {
+		tecla = _getch();
+	} while (tecla != 13);
+	
+	iniciarJogo();
+
+	return 0;
+}
+
+void imprimirTelaInicio(){
+	int i, j;
 	
 	for (i = 0; i < 50; i++){
 		printf("-");
@@ -47,7 +66,35 @@ int main(){
 	for (i = 0; i < 50; i++){
 		printf("-");
 	}
+}
 
-	return 0;
+int iniciarJogo(){
+	int tecla1, tecla2;
+
+	while (1){
+		system("cls");
+		
+		tecla1 = _getch();
+		
+		if (tecla1 == 224){
+			tecla2 = _getch();
+			
+			switch (tecla2){
+				case 75:
+					printf("Apertou Esquerda\n");
+				break;
+				
+				case 77:
+					printf("Apertou Direita\n");
+				break;
+			}
+		}
+		
+		printf("A");
+		
+		Sleep(2000);
+	}
+	
+	
 }
 
