@@ -4,6 +4,10 @@
 
 void imprimirTelaInicio();
 
+void esconderCursor(); 
+
+void desenharPlayer(int x);
+
 int iniciarJogo();
 
 int main(){
@@ -69,32 +73,60 @@ void imprimirTelaInicio(){
 }
 
 int iniciarJogo(){
-	int tecla1, tecla2;
-
+	esconderCursor();
+	
+	int x = 60;
+	
 	while (1){
 		system("cls");
+
+		desenharPlayer(x);
 		
-		tecla1 = _getch();
-		
-		if (tecla1 == 224){
-			tecla2 = _getch();
-			
-			switch (tecla2){
-				case 75:
-					printf("Apertou Esquerda\n");
-				break;
-				
-				case 77:
-					printf("Apertou Direita\n");
-				break;
-			}
-		}
-		
-		printf("A");
-		
-		Sleep(2000);
+		x = lerTeclaPlayer(x);
 	}
-	
-	
 }
 
+void desenharPlayer(int x){
+	int i;
+		
+	//Espaço vertical
+	for (i = 0; i < 20; i++){
+		printf("\n");
+	}
+	
+	//Espaço horizontal
+	for (i = 0; i < x; i++){
+		printf(" ");
+	}
+	
+	printf("A");
+}
+
+int lerTeclaPlayer(int x){
+	int tecla1 = _getch();
+		
+	if (tecla1 == 224){
+		int tecla2 = _getch();
+		
+		switch (tecla2){
+			case 75:
+				x--;
+			break;
+			
+			case 77:
+				x++;
+			break;
+		}
+	}
+	
+	return x;
+}
+
+void esconderCursor() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO info;
+
+    info.dwSize = 100;
+    info.bVisible = FALSE;
+    SetConsoleCursorInfo(hConsole, &info);
+}
