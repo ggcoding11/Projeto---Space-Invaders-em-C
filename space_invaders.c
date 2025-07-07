@@ -83,6 +83,8 @@ int iniciarJogo(){
 		desenharPlayer(x);
 		
 		x = lerTeclaPlayer(x);
+		
+		Sleep(20);
 	}
 }
 
@@ -103,20 +105,22 @@ void desenharPlayer(int x){
 }
 
 int lerTeclaPlayer(int x){
-	int tecla1 = _getch();
+	if (kbhit()){
+		int tecla1 = _getch();
 		
-	if (tecla1 == 224){
-		int tecla2 = _getch();
-		
-		switch (tecla2){
-			case 75:
-				x--;
-			break;
+		if (tecla1 == 224){
+			int tecla2 = _getch();
 			
-			case 77:
-				x++;
-			break;
-		}
+			switch (tecla2){
+				case 75:
+					x--;
+				break;
+				
+				case 77:
+					x++;
+				break;
+			}
+		}	
 	}
 	
 	return x;

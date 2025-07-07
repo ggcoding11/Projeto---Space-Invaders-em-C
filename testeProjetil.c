@@ -20,10 +20,7 @@ int main(){
 		
 		Sleep(200);	
 	}
-	
-	
 
-	
 	return 0;
 }
 
