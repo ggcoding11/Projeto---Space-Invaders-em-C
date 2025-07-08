@@ -108,19 +108,29 @@ int lerTeclaPlayer(int x){
 	if (kbhit()){
 		int tecla1 = _getch();
 		
-		if (tecla1 == 224){
-			int tecla2 = _getch();
+		switch(tecla1){
+			case 122:
+			case 90:
+				printf("Apertou Z");
+				Sleep(2000);
+			break;
 			
-			switch (tecla2){
-				case 75:
-					x--;
-				break;
-				
-				case 77:
-					x++;
-				break;
+			case 224:{
+				int tecla2 = _getch();
+			
+				switch (tecla2){
+					case 75:
+						x--;
+					break;
+					
+					case 77:
+						x++;
+					break;
+				}
 			}
-		}	
+			
+			break;
+		}
 	}
 	
 	return x;
