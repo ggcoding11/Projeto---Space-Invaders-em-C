@@ -6,7 +6,7 @@ void imprimirTelaInicio();
 
 void esconderCursor(); 
 
-void desenharPlayer(int x);
+void desenhar(int x, int y, char a);
 
 int iniciarJogo();
 
@@ -76,11 +76,12 @@ int iniciarJogo(){
 	esconderCursor();
 	
 	int x = 60;
+	int y = 20;
 	
 	while (1){
 		system("cls");
 
-		desenharPlayer(x);
+		desenhar(x, y, 'A');
 		
 		x = lerTeclaPlayer(x);
 		
@@ -88,11 +89,11 @@ int iniciarJogo(){
 	}
 }
 
-void desenharPlayer(int x){
+void desenhar(int x, int y, char a){
 	int i;
-		
+
 	//Espaço vertical
-	for (i = 0; i < 20; i++){
+	for (i = 0; i < y; i++){
 		printf("\n");
 	}
 	
@@ -101,7 +102,7 @@ void desenharPlayer(int x){
 		printf(" ");
 	}
 	
-	printf("A");
+	printf("%c", a);
 }
 
 int lerTeclaPlayer(int x){
@@ -111,8 +112,7 @@ int lerTeclaPlayer(int x){
 		switch(tecla1){
 			case 122:
 			case 90:
-				printf("Apertou Z");
-				Sleep(2000);
+				
 			break;
 			
 			case 224:{
