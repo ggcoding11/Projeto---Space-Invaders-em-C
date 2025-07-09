@@ -3,7 +3,7 @@
 #include <windows.h> //Também só pra windows
 
 #define LINHAS 40
-#define COLUNAS 40
+#define COLUNAS 20
 
 void imprimirTelaInicio();
 
@@ -90,7 +90,9 @@ int iniciarJogo(){
 	while (1){
 		system("cls");
 		
-		x = lerTeclaPlayer(x);
+		desenharMapa();
+		
+//		x = lerTeclaPlayer(x);
 		
 		Sleep(20);
 	}
@@ -103,6 +105,18 @@ void inicializarMapa(){
 		for (j = 0; j < COLUNAS; j++){
 			mapa[i][j] = ' ';
 		}	
+	}
+}
+
+void desenharMapa(){
+	int i, j;
+	
+	for (i = 0; i < LINHAS; i++){
+		for (j = 0; j < COLUNAS; j++){
+			printf("%c ", mapa[i][j]);
+		}
+		
+		printf("\n");
 	}
 }
 
