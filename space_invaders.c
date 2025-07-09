@@ -92,7 +92,7 @@ int iniciarJogo(){
 		
 		desenharMapa();
 		
-//		x = lerTeclaPlayer(x);
+		x = lerTeclaPlayer(x);
 		
 		Sleep(20);
 	}
