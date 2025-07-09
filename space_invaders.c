@@ -2,14 +2,14 @@
 #include <conio.h> //Só pro windows mané
 #include <windows.h> //Também só pra windows
 
-#define LINHAS 40
-#define COLUNAS 20
+#define LINHAS 20
+#define COLUNAS 60
 
 void imprimirTelaInicio();
 
 void esconderCursor(); 
 
-void inicializarMapa(); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
+void inicializarMapa(int xPlayer); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
 
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
 
@@ -82,30 +82,34 @@ void imprimirTelaInicio(){
 int iniciarJogo(){
 	esconderCursor();
 	
-	int x = 60;
-	int y = 20;
+	//Posição inicial do player
+	int xPlayer = 30;
 	
 	while (1){
 		system("cls");
 	
-		inicializarMapa();
+		inicializarMapa(xPlayer);
 		
 		desenharMapa();
 		
-		x = lerTeclaPlayer(x);
+		xPlayer = lerTeclaPlayer(xPlayer);
 		
 		Sleep(20);
 	}
 }
 
-void inicializarMapa(){
+void inicializarMapa(int xPlayer){
 	int i,j;
 	
+	//REINICIO PADRÃO DO MAPA
 	for (i = 0; i < LINHAS; i++){
 		for (j = 0; j < COLUNAS; j++){
 			mapa[i][j] = ' ';
 		}	
 	}
+	
+	//POSICIONAMENTO DO PLAYER
+	mapa[LINHAS - 1][xPlayer] = 'A'; 
 }
 
 void desenharMapa(){
@@ -135,11 +139,15 @@ int lerTeclaPlayer(int x){
 			
 				switch (tecla2){
 					case 75:
-						x--;
+						if (x != 0){
+							x--;
+						}
 					break;
 					
 					case 77:
-						x++;
+						if (x != COLUNAS - 1){
+							x++;
+						}
 					break;
 				}
 			}
