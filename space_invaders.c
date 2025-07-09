@@ -9,13 +9,18 @@ void imprimirTelaInicio();
 
 void esconderCursor(); 
 
-void inicializarMapa(int xPlayer); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
+void inicializarMapa(); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
 
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
+
+void lerTeclaPlayer();
 
 int iniciarJogo();
 
 char mapa[LINHAS][COLUNAS];
+
+int xPlayer = 30;
+int xTiro, yTiro;
 
 int main(){
 	imprimirTelaInicio();
@@ -82,23 +87,20 @@ void imprimirTelaInicio(){
 int iniciarJogo(){
 	esconderCursor();
 	
-	//Posição inicial do player
-	int xPlayer = 30;
-	
 	while (1){
 		system("cls");
 	
-		inicializarMapa(xPlayer);
+		inicializarMapa();
 		
 		desenharMapa();
 		
-		xPlayer = lerTeclaPlayer(xPlayer);
+		lerTeclaPlayer();
 		
 		Sleep(20);
 	}
 }
 
-void inicializarMapa(int xPlayer){
+void inicializarMapa(){
 	int i,j;
 	
 	//REINICIO PADRÃO DO MAPA
@@ -124,14 +126,14 @@ void desenharMapa(){
 	}
 }
 
-int lerTeclaPlayer(int x){
+void lerTeclaPlayer(){
 	if (kbhit()){
 		int tecla1 = _getch();
 		
 		switch(tecla1){
 			case 122:
 			case 90:
-				//Atirou
+				//Atirou!!
 			break;
 			
 			case 224:{
@@ -139,14 +141,14 @@ int lerTeclaPlayer(int x){
 			
 				switch (tecla2){
 					case 75:
-						if (x != 0){
-							x--;
+						if (xPlayer != 0){
+							xPlayer--;
 						}
 					break;
 					
 					case 77:
-						if (x != COLUNAS - 1){
-							x++;
+						if (xPlayer != COLUNAS - 1){
+							xPlayer++;
 						}
 					break;
 				}
@@ -155,8 +157,6 @@ int lerTeclaPlayer(int x){
 			break;
 		}
 	}
-	
-	return x;
 }
 
 void esconderCursor() {
