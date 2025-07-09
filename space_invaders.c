@@ -3,7 +3,7 @@
 #include <windows.h> //Também só pra windows
 
 #define LINHAS 20
-#define COLUNAS 60
+#define COLUNAS 30
 
 void imprimirTelaInicio();
 
@@ -19,7 +19,7 @@ int iniciarJogo();
 
 char mapa[LINHAS][COLUNAS];
 
-int xPlayer = 30;
+int xPlayer = 15;
 int xTiro, yTiro;
 
 int atirou = 0;
@@ -110,6 +110,12 @@ void inicializarMapa(){
 		for (j = 0; j < COLUNAS; j++){
 			mapa[i][j] = ' ';
 		}	
+	}
+	
+	for (i = 0; i < 5; i++){
+		for (j = 2; j < COLUNAS - 2; j++){
+			mapa[i][j] = 'M';
+		}
 	}
 	
 	//Posicionamento do player
