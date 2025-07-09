@@ -9,7 +9,7 @@ void imprimirTelaInicio();
 
 void esconderCursor(); 
 
-void inicializarMapa(); //Esse vai criar a matriz
+void inicializarMapa(); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
 
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
 
@@ -82,13 +82,13 @@ void imprimirTelaInicio(){
 int iniciarJogo(){
 	esconderCursor();
 	
-	inicializarMapa();
-	
 	int x = 60;
 	int y = 20;
 	
 	while (1){
 		system("cls");
+	
+		inicializarMapa();
 		
 		desenharMapa();
 		
