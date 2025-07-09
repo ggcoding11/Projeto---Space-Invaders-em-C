@@ -131,7 +131,7 @@ int lerTeclaPlayer(int x){
 		switch(tecla1){
 			case 122:
 			case 90:
-				
+				//Atirou
 			break;
 			
 			case 224:{
