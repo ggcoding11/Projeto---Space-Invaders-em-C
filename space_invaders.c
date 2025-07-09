@@ -22,6 +22,8 @@ char mapa[LINHAS][COLUNAS];
 int xPlayer = 30;
 int xTiro, yTiro;
 
+int atirou = 0;
+
 int main(){
 	imprimirTelaInicio();
 	
@@ -103,15 +105,27 @@ int iniciarJogo(){
 void inicializarMapa(){
 	int i,j;
 	
-	//REINICIO PADRÃO DO MAPA
+	//Limpeza geral do mapa antes de preencher
 	for (i = 0; i < LINHAS; i++){
 		for (j = 0; j < COLUNAS; j++){
 			mapa[i][j] = ' ';
 		}	
 	}
 	
-	//POSICIONAMENTO DO PLAYER
+	//Posicionamento do player
 	mapa[LINHAS - 1][xPlayer] = 'A'; 
+	
+	
+	//Se o player atirou, fazer animação até o tiro sumir, aí libera o próximo
+	if (atirou){
+		mapa[yTiro][xTiro] = '^';
+		
+		yTiro--;
+		
+		if (yTiro < 0){
+			atirou = 0;
+		}
+	}
 }
 
 void desenharMapa(){
@@ -133,7 +147,12 @@ void lerTeclaPlayer(){
 		switch(tecla1){
 			case 122:
 			case 90:
-				//Atirou!!
+				if (!atirou){
+					atirou = 1;
+					
+					xTiro = xPlayer;
+					yTiro = LINHAS - 2;	
+				}	
 			break;
 			
 			case 224:{
