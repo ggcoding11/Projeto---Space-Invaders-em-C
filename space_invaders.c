@@ -127,7 +127,7 @@ void inicializarMapa(){
 	}
 	
 	//Bateu na esquerda
-	if (xEnemy == 0){
+	if (xEnemy == 1){
 		andarDireita = 1;
 		yEnemy++;
 	}
@@ -139,6 +139,7 @@ void inicializarMapa(){
 		}
 	}
 	
+	//Sentido da movimentação
 	if (andarDireita){
 		xEnemy++;
 	} else {
