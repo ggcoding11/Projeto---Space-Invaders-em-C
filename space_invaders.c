@@ -108,12 +108,17 @@ void inicializarMapa(){
 	//Limpeza geral do mapa antes de preencher
 	for (i = 0; i < LINHAS; i++){
 		for (j = 0; j < COLUNAS; j++){
-			mapa[i][j] = ' ';
+			if ((j == 0) || (j == COLUNAS - 1)){
+				mapa[i][j] = '|';
+			} else {
+				mapa[i][j] = ' ';	
+			}
 		}	
 	}
-	
+
+	//Posicionamento dos inimigos
 	for (i = 0; i < 5; i++){
-		for (j = 2; j < COLUNAS - 2; j++){
+		for (j = 4; j < COLUNAS - 4; j++){
 			mapa[i][j] = 'M';
 		}
 	}
@@ -166,13 +171,13 @@ void lerTeclaPlayer(){
 			
 				switch (tecla2){
 					case 75:
-						if (xPlayer != 0){
+						if (xPlayer != 1){
 							xPlayer--;
 						}
 					break;
 					
 					case 77:
-						if (xPlayer != COLUNAS - 1){
+						if (xPlayer != COLUNAS - 2){
 							xPlayer++;
 						}
 					break;
