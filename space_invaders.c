@@ -21,8 +21,12 @@ char mapa[LINHAS][COLUNAS];
 
 int xPlayer = 15;
 int xTiro, yTiro;
+int xEnemy = 2;
+int yEnemy = 0;
 
 int atirou = 0;
+
+int andarDireita = 1;
 
 int main(){
 	imprimirTelaInicio();
@@ -98,7 +102,7 @@ int iniciarJogo(){
 		
 		lerTeclaPlayer();
 		
-		Sleep(20);
+		Sleep(80);
 	}
 }
 
@@ -116,11 +120,29 @@ void inicializarMapa(){
 		}	
 	}
 
+	//Bateu na direita
+	if (xEnemy + 20 == COLUNAS - 1){
+		andarDireita = 0;
+		yEnemy++;
+	}
+	
+	//Bateu na esquerda
+	if (xEnemy == 0){
+		andarDireita = 1;
+		yEnemy++;
+	}
+	
 	//Posicionamento dos inimigos
-	for (i = 0; i < 5; i++){
-		for (j = 4; j < COLUNAS - 4; j++){
+	for (i = yEnemy; i < yEnemy + 5; i++){
+		for (j = xEnemy; j < xEnemy + 20; j++){
 			mapa[i][j] = 'M';
 		}
+	}
+	
+	if (andarDireita){
+		xEnemy++;
+	} else {
+		xEnemy--;
 	}
 	
 	//Posicionamento do player
