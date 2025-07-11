@@ -9,7 +9,7 @@ void imprimirTelaInicio();
 
 void esconderCursor(); 
 
-void inicializarMapa(); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
+void inicializarMapa(int *turnoMoveEnemy); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
 
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
 
@@ -93,20 +93,24 @@ void imprimirTelaInicio(){
 int iniciarJogo(){
 	esconderCursor();
 	
+	int turnoMoveEnemy = 0;
+	
 	while (1){
 		system("cls");
 	
-		inicializarMapa();
+		inicializarMapa(&turnoMoveEnemy);
 		
 		desenharMapa();
 		
 		lerTeclaPlayer();
 		
 		Sleep(80);
+		
+		turnoMoveEnemy++;
 	}
 }
 
-void inicializarMapa(){
+void inicializarMapa(int *turnoMoveEnemy){
 	int i,j;
 	
 	//Limpeza geral do mapa antes de preencher
@@ -119,32 +123,37 @@ void inicializarMapa(){
 			}
 		}	
 	}
-
-	//Bateu na direita
-	if (xEnemy + 20 == COLUNAS - 1){
-		andarDireita = 0;
-		yEnemy++;
-	}
 	
-	//Bateu na esquerda
-	if (xEnemy == 1){
-		andarDireita = 1;
-		yEnemy++;
-	}
+	if (*turnoMoveEnemy == 9){
+		int xLastEnemy = xEnemy + 19;
+		int xLimiteMapa = COLUNAS - 1;
+		int xInicioMapa = 1;
+		
+		if ((xLastEnemy == xLimiteMapa - 1) && (andarDireita)){
+			andarDireita = 0;
+			yEnemy++;
+		} else {
+			if ((xEnemy == xInicioMapa) && (!andarDireita)){
+				andarDireita = 1;
+				yEnemy++;
+			} else {
+				if (andarDireita){
+					xEnemy++;
+				} else {
+					xEnemy--;
+				}
+			}
+		}
+		
+		*turnoMoveEnemy = 0;	
+	}	
 	
 	//Posicionamento dos inimigos
 	for (i = yEnemy; i < yEnemy + 5; i++){
 		for (j = xEnemy; j < xEnemy + 20; j++){
 			mapa[i][j] = 'M';
 		}
-	}
-	
-	//Sentido da movimentação
-	if (andarDireita){
-		xEnemy++;
-	} else {
-		xEnemy--;
-	}
+	}	
 	
 	//Posicionamento do player
 	mapa[LINHAS - 1][xPlayer] = 'A'; 
