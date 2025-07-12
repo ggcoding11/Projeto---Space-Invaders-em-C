@@ -6,18 +6,15 @@
 #define COLUNAS 30
 
 void imprimirTelaInicio();
-
 void esconderCursor(); 
-
 void inicializarMapa(int *turnoMoveEnemy); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
-
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
-
 void lerTeclaPlayer();
-
 int iniciarJogo();
 
 char mapa[LINHAS][COLUNAS];
+
+int matrizEnemy[5][20];
 
 int xPlayer = 15;
 int xTiro, yTiro;
@@ -93,6 +90,14 @@ void imprimirTelaInicio(){
 int iniciarJogo(){
 	esconderCursor();
 	
+	int i, j;
+	
+	for (i = 0; i < 5; i++){
+		for (j = 0; j < 20; j++){
+			matrizEnemy[i][j] = 1;
+		}
+	}
+	
 	int turnoMoveEnemy = 0;
 	
 	while (1){
@@ -148,25 +153,38 @@ void inicializarMapa(int *turnoMoveEnemy){
 		*turnoMoveEnemy = 0;	
 	}	
 	
-	//Posicionamento dos inimigos
-	for (i = yEnemy; i < yEnemy + 5; i++){
-		for (j = xEnemy; j < xEnemy + 20; j++){
-			mapa[i][j] = 'M';
-		}
-	}	
-	
 	//Posicionamento do player
 	mapa[LINHAS - 1][xPlayer] = 'A'; 
 	
-	
 	//Se o player atirou, fazer animação até o tiro sumir, aí libera o próximo
 	if (atirou){
-		mapa[yTiro][xTiro] = '^';
+		//Considerando que o tiro esteja na área dos inimigos, eu vou tirar os espaçamentos 
+		//do xEnemy e do yEnemy e ver como está na matrizEnemy
 		
-		yTiro--;
+		//E basicamente a lógica do posicionamento de inimigos, mas ao contrário
+		int relX = xTiro - xEnemy;
+		int relY = yTiro - yEnemy;
 		
-		if (yTiro < 0){
+		if ((relX >= 0 && relX < 20) && (relY >= 0 && relY < 5) && (matrizEnemy[relY][relX])){
+			matrizEnemy[relY][relX] = 0;
 			atirou = 0;
+		} else {
+			mapa[yTiro][xTiro] = '^';
+		
+			yTiro--;
+			
+			if (yTiro < 0){
+				atirou = 0;
+			}	
+		}	
+	}
+	
+	//Posicionamento dos inimigos
+	for (i = 0; i < 5; i++){
+		for (j = 0; j < 20; j++){
+			if (matrizEnemy[i][j]){
+				mapa[yEnemy + i][xEnemy + j] = 'M';
+			}
 		}
 	}
 }
