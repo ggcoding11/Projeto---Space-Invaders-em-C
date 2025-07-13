@@ -5,8 +5,8 @@
 #define LINHAS 20
 #define COLUNAS 30
 
-#define LINHASENEMY 1
-#define COLUNASENEMY 1
+#define LINHASENEMY 3
+#define COLUNASENEMY 18
 
 void imprimirTelaInicio();
 void esconderCursor(); 
@@ -180,10 +180,10 @@ void inicializarMapa(int *turnoMoveEnemy){
 	}
 	
 	if (*turnoMoveEnemy == 9){
-		int xLimiteMapa = COLUNAS - 1;
+		int xLimiteMapa = COLUNAS - 2;
 		int xInicioMapa = 1;
 		
-		if ((xEnemyInicio + colLimiteDireita == xLimiteMapa - 1) && (andarDireita)){
+		if ((xEnemyInicio + colLimiteDireita == xLimiteMapa) && (andarDireita)){
 			andarDireita = 0;
 			yEnemyInicio++;
 		} else {
