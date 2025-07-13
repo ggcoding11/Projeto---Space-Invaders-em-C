@@ -31,7 +31,7 @@ int main(){
 	int tecla;
 	
 	do {
-		tecla = _getch();
+		tecla = _getch(); 
 	} while (tecla != 13);
 	
 	iniciarJogo();
