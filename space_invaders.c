@@ -5,6 +5,9 @@
 #define LINHAS 20
 #define COLUNAS 30
 
+#define LINHASENEMY 1
+#define COLUNASENEMY 1
+
 void imprimirTelaInicio();
 void esconderCursor(); 
 void inicializarMapa(int *turnoMoveEnemy); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
@@ -14,12 +17,12 @@ int iniciarJogo();
 
 char mapa[LINHAS][COLUNAS];
 
-int matrizEnemy[5][20];
+int matrizEnemy[LINHASENEMY][COLUNASENEMY];
 
 int xPlayer = 15;
 int xTiro, yTiro;
-int xEnemy = 2;
-int yEnemy = 0;
+int xEnemyInicio = 2;
+int yEnemyInicio = 0;
 
 int atirou = 0;
 
@@ -92,8 +95,8 @@ int iniciarJogo(){
 	
 	int i, j;
 	
-	for (i = 0; i < 5; i++){
-		for (j = 0; j < 20; j++){
+	for (i = 0; i < LINHASENEMY; i++){
+		for (j = 0; j < COLUNASENEMY; j++){
 			matrizEnemy[i][j] = 1;
 		}
 	}
@@ -129,23 +132,69 @@ void inicializarMapa(int *turnoMoveEnemy){
 		}	
 	}
 	
+	//Verificação das colunas limites
+	int achouLimite = 0;
+	int colLimiteDireita = COLUNASENEMY - 1;
+	
+	while (!achouLimite){
+		
+		j = colLimiteDireita;
+		
+		while (j >= 0 && !achouLimite){
+			i = 0;
+			
+			while (i < LINHASENEMY && !achouLimite){
+				if (matrizEnemy[i][j]){
+					achouLimite = 1;
+					colLimiteDireita = j;
+				}	
+				
+				i++;	
+			}
+			
+			j--;	
+		}
+	}
+	
+	achouLimite = 0;
+	int colLimiteEsquerda = 0;
+	
+	while (!achouLimite){
+		
+		j = 0;
+		
+		while (j < COLUNASENEMY && !achouLimite){
+			i = 0;
+			
+			while (i < LINHASENEMY && !achouLimite){
+				if (matrizEnemy[i][j]){
+					achouLimite = 1;
+					colLimiteEsquerda = j;
+				}	
+				
+				i++;	
+			}
+			
+			j++;	
+		}
+	}
+	
 	if (*turnoMoveEnemy == 9){
-		int xLastEnemy = xEnemy + 19;
 		int xLimiteMapa = COLUNAS - 1;
 		int xInicioMapa = 1;
 		
-		if ((xLastEnemy == xLimiteMapa - 1) && (andarDireita)){
+		if ((xEnemyInicio + colLimiteDireita == xLimiteMapa - 1) && (andarDireita)){
 			andarDireita = 0;
-			yEnemy++;
+			yEnemyInicio++;
 		} else {
-			if ((xEnemy == xInicioMapa) && (!andarDireita)){
+			if ((xEnemyInicio + colLimiteEsquerda == xInicioMapa) && (!andarDireita)){
 				andarDireita = 1;
-				yEnemy++;
+				yEnemyInicio++;
 			} else {
 				if (andarDireita){
-					xEnemy++;
+					xEnemyInicio++;
 				} else {
-					xEnemy--;
+					xEnemyInicio--;
 				}
 			}
 		}
@@ -159,13 +208,13 @@ void inicializarMapa(int *turnoMoveEnemy){
 	//Se o player atirou, fazer animação até o tiro sumir, aí libera o próximo
 	if (atirou){
 		//Considerando que o tiro esteja na área dos inimigos, eu vou tirar os espaçamentos 
-		//do xEnemy e do yEnemy e ver como está na matrizEnemy
+		//do xEnemyInicio e do yEnemyInicio e ver como está na matrizEnemy
 		
 		//E basicamente a lógica do posicionamento de inimigos, mas ao contrário
-		int relX = xTiro - xEnemy;
-		int relY = yTiro - yEnemy;
+		int relX = xTiro - xEnemyInicio;
+		int relY = yTiro - yEnemyInicio;
 		
-		if ((relX >= 0 && relX < 20) && (relY >= 0 && relY < 5) && (matrizEnemy[relY][relX])){
+		if ((relX >= 0 && relX < COLUNASENEMY) && (relY >= 0 && relY < LINHASENEMY) && (matrizEnemy[relY][relX])){
 			matrizEnemy[relY][relX] = 0;
 			atirou = 0;
 		} else {
@@ -180,10 +229,10 @@ void inicializarMapa(int *turnoMoveEnemy){
 	}
 	
 	//Posicionamento dos inimigos
-	for (i = 0; i < 5; i++){
-		for (j = 0; j < 20; j++){
+	for (i = 0; i < LINHASENEMY; i++){
+		for (j = 0; j < COLUNASENEMY; j++){
 			if (matrizEnemy[i][j]){
-				mapa[yEnemy + i][xEnemy + j] = 'M';
+				mapa[yEnemyInicio + i][xEnemyInicio + j] = 'M';
 			}
 		}
 	}
