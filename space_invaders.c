@@ -2,7 +2,7 @@
 #include <conio.h> //Só pro windows mané
 #include <windows.h> //Também só pra windows
 
-#define LINHAS 20
+#define LINHAS 15
 #define COLUNAS 30
 
 #define LINHASENEMY 3
@@ -10,6 +10,7 @@
 
 void imprimirTelaInicio();
 void esconderCursor(); 
+void inicializarInimigos();
 void inicializarMapa(int *turnoMoveEnemy); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
 void lerTeclaPlayer();
@@ -92,17 +93,11 @@ void imprimirTelaInicio(){
 
 int iniciarJogo(){
 	esconderCursor();
-	
-	int i, j;
-	
-	for (i = 0; i < LINHASENEMY; i++){
-		for (j = 0; j < COLUNASENEMY; j++){
-			matrizEnemy[i][j] = 1;
-		}
-	}
-	
+		
 	int turnoMoveEnemy = 0;
 	
+	inicializarInimigos();
+		
 	while (1){
 		system("cls");
 	
@@ -112,9 +107,19 @@ int iniciarJogo(){
 		
 		lerTeclaPlayer();
 		
-		Sleep(80);
+		Sleep(50);
 		
 		turnoMoveEnemy++;
+	}
+}
+
+void inicializarInimigos(){
+	int i, j;
+	
+	for (i = 0; i < LINHASENEMY; i++){
+		for (j = 0; j < COLUNASENEMY; j++){
+			matrizEnemy[i][j] = 1;
+		}
 	}
 }
 
