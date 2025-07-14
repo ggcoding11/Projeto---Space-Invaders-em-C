@@ -11,7 +11,7 @@
 void imprimirTelaInicio();
 void esconderCursor(); 
 void inicializarInimigos();
-void inicializarMapa(int *turnoMoveEnemy); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
+void inicializarMapa(); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
 void lerTeclaPlayer();
 int iniciarJogo();
@@ -28,6 +28,8 @@ int yEnemyInicio = 0;
 int atirou = 0;
 
 int andarDireita = 1;
+
+int turnoMoveEnemy = 0;
 
 int main(){
 	imprimirTelaInicio();
@@ -93,15 +95,13 @@ void imprimirTelaInicio(){
 
 int iniciarJogo(){
 	esconderCursor();
-		
-	int turnoMoveEnemy = 0;
 	
 	inicializarInimigos();
 		
 	while (1){
 		system("cls");
 	
-		inicializarMapa(&turnoMoveEnemy);
+		inicializarMapa();
 		
 		desenharMapa();
 		
@@ -123,7 +123,7 @@ void inicializarInimigos(){
 	}
 }
 
-void inicializarMapa(int *turnoMoveEnemy){
+void inicializarMapa(){
 	int i,j;
 	
 	//Limpeza geral do mapa antes de preencher
@@ -184,7 +184,7 @@ void inicializarMapa(int *turnoMoveEnemy){
 		}
 	}
 	
-	if (*turnoMoveEnemy == 9){
+	if (turnoMoveEnemy == 9){
 		int xLimiteMapa = COLUNAS - 2;
 		int xInicioMapa = 1;
 		
@@ -204,7 +204,7 @@ void inicializarMapa(int *turnoMoveEnemy){
 			}
 		}
 		
-		*turnoMoveEnemy = 0;	
+		turnoMoveEnemy = 0;	
 	}	
 	
 	//Posicionamento do player
@@ -212,10 +212,6 @@ void inicializarMapa(int *turnoMoveEnemy){
 	
 	//Se o player atirou, fazer animação até o tiro sumir, aí libera o próximo
 	if (atirou){
-		//Considerando que o tiro esteja na área dos inimigos, eu vou tirar os espaçamentos 
-		//do xEnemyInicio e do yEnemyInicio e ver como está na matrizEnemy
-		
-		//E basicamente a lógica do posicionamento de inimigos, mas ao contrário
 		int relX = xTiro - xEnemyInicio;
 		int relY = yTiro - yEnemyInicio;
 		
