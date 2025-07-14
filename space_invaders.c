@@ -220,7 +220,7 @@ void inicializarMapa(int *turnoMoveEnemy){
 		int relY = yTiro - yEnemyInicio;
 		
 		if ((relX >= 0 && relX < COLUNASENEMY) && (relY >= 0 && relY < LINHASENEMY) && (matrizEnemy[relY][relX])){
-			matrizEnemy[relY][relX] = 0;
+			matrizEnemy[relY][relX] = 2;
 			atirou = 0;
 		} else {
 			mapa[yTiro][xTiro] = '^';
@@ -236,8 +236,15 @@ void inicializarMapa(int *turnoMoveEnemy){
 	//Posicionamento dos inimigos
 	for (i = 0; i < LINHASENEMY; i++){
 		for (j = 0; j < COLUNASENEMY; j++){
-			if (matrizEnemy[i][j]){
-				mapa[yEnemyInicio + i][xEnemyInicio + j] = 'M';
+			switch (matrizEnemy[i][j]){
+				case 1:
+					mapa[yEnemyInicio + i][xEnemyInicio + j] = 'M';
+				break;
+				
+				case 2:
+					mapa[yEnemyInicio + i][xEnemyInicio + j] = 'X';
+					matrizEnemy[i][j] = 0;
+				break;
 			}
 		}
 	}
