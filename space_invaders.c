@@ -29,7 +29,7 @@ int atirou = 0;
 
 int andarDireita = 1;
 
-int turnoMoveEnemy = 0;
+int contadorTurnos = 0;
 
 int main(){
 	imprimirTelaInicio();
@@ -107,9 +107,9 @@ int iniciarJogo(){
 		
 		lerTeclaPlayer();
 		
-		Sleep(50);
+		Sleep(20);
 		
-		turnoMoveEnemy++;
+		contadorTurnos++;
 	}
 }
 
@@ -184,7 +184,7 @@ void inicializarMapa(){
 		}
 	}
 	
-	if (turnoMoveEnemy == 9){
+	if (contadorTurnos % 12 == 0){
 		int xLimiteMapa = COLUNAS - 2;
 		int xInicioMapa = 1;
 		
@@ -203,8 +203,6 @@ void inicializarMapa(){
 				}
 			}
 		}
-		
-		turnoMoveEnemy = 0;	
 	}	
 	
 	//Posicionamento do player
