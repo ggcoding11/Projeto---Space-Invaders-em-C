@@ -8,6 +8,11 @@
 #define LINHASENEMY 3
 #define COLUNASENEMY 18
 
+#define VELTIROPLAYER 6
+#define VELTIROENEMY 8
+
+#define VELENEMY 28
+
 void imprimirTelaInicio();
 void esconderCursor(); 
 void inicializarInimigos();
@@ -107,8 +112,6 @@ int iniciarJogo(){
 		
 		lerTeclaPlayer();
 		
-		Sleep(20);
-		
 		contadorTurnos++;
 	}
 }
@@ -137,7 +140,7 @@ void inicializarMapa(){
 		}	
 	}
 	
-	//Verificação das colunas limites
+	//Verificação das colunas limites para a colisão dos inimigos no limite do mapa
 	int achouLimite = 0;
 	int colLimiteDireita = COLUNASENEMY - 1;
 	
@@ -184,7 +187,7 @@ void inicializarMapa(){
 		}
 	}
 	
-	if (contadorTurnos % 12 == 0){
+	if (contadorTurnos % VELENEMY == 0){
 		int xLimiteMapa = COLUNAS - 2;
 		int xInicioMapa = 1;
 		
@@ -218,9 +221,11 @@ void inicializarMapa(){
 			atirou = 0;
 		} else {
 			mapa[yTiro][xTiro] = '^';
-		
-			yTiro--;
 			
+			if (contadorTurnos%VELTIROPLAYER == 0){
+				yTiro--;	
+			}
+	
 			if (yTiro < 0){
 				atirou = 0;
 			}	
