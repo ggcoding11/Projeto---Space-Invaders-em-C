@@ -1,17 +1,19 @@
 #include <stdio.h>
 #include <conio.h> //Só pro windows mané
 #include <windows.h> //Também só pra windows
+#include <stdlib.h>
+#include <time.h>
 
 #define LINHAS 15
 #define COLUNAS 30
 
-#define LINHASENEMY 3
+#define LINHASENEMY 4
 #define COLUNASENEMY 18
 
 #define VELTIROPLAYER 6
 #define VELTIROENEMY 8
 
-#define VELENEMY 28
+#define VELENEMY 40
 
 void imprimirTelaInicio();
 void esconderCursor(); 
@@ -27,16 +29,20 @@ int matrizEnemy[LINHASENEMY][COLUNASENEMY];
 
 int xPlayer = 15;
 int xTiro, yTiro;
+int xTiroEnemy, yTiroEnemy;
 int xEnemyInicio = 2;
 int yEnemyInicio = 0;
 
-int atirou = 0;
+int atirouPlayer = 0;
+int atirouEnemy = 0;
 
 int andarDireita = 1;
 
 int contadorTurnos = 0;
 
 int main(){
+	srand(time(NULL));
+	
 	imprimirTelaInicio();
 	
 	int tecla;
@@ -211,14 +217,14 @@ void inicializarMapa(){
 	//Posicionamento do player
 	mapa[LINHAS - 1][xPlayer] = 'A'; 
 	
-	//Se o player atirou, fazer animação até o tiro sumir, aí libera o próximo
-	if (atirou){
+	//Se o player atirouPlayer, fazer animação até o tiro sumir, aí libera o próximo
+	if (atirouPlayer){
 		int relX = xTiro - xEnemyInicio;
 		int relY = yTiro - yEnemyInicio;
 		
 		if ((relX >= 0 && relX < COLUNASENEMY) && (relY >= 0 && relY < LINHASENEMY) && (matrizEnemy[relY][relX])){
 			matrizEnemy[relY][relX] = 2;
-			atirou = 0;
+			atirouPlayer = 0;
 		} else {
 			mapa[yTiro][xTiro] = '^';
 			
@@ -227,9 +233,45 @@ void inicializarMapa(){
 			}
 	
 			if (yTiro < 0){
-				atirou = 0;
+				atirouPlayer = 0;
 			}	
 		}	
+	}
+	
+	if ((contadorTurnos > 0) && (contadorTurnos % 46 == 0) && (!atirouEnemy)){
+		int linhaAtirador = yEnemyInicio + (LINHASENEMY - 2);
+		int colAtirador;
+		
+		int encontrou = 0;
+		
+		do {
+			colAtirador = xEnemyInicio + (rand() % COLUNASENEMY);
+			
+			while (linhaAtirador >= 0 && matrizEnemy[linhaAtirador][colAtirador] == 0){
+				linhaAtirador--;
+			}	
+			
+			if (matrizEnemy[linhaAtirador][colAtirador]){
+				encontrou = 1;
+			}
+		} while (!encontrou);
+		
+		yTiroEnemy = linhaAtirador + 1;
+		xTiroEnemy = colAtirador; 
+		
+		atirouEnemy = 1;
+	}
+	
+	if (atirouEnemy){
+		mapa[yTiroEnemy][xTiroEnemy] = 'o';
+	
+		if (contadorTurnos % VELTIROENEMY == 0){
+			yTiroEnemy++;
+			
+			if (yTiroEnemy == LINHAS){
+				atirouEnemy = 0;
+			}	
+		}
 	}
 	
 	//Posicionamento dos inimigos
@@ -268,8 +310,8 @@ void lerTeclaPlayer(){
 		switch(tecla1){
 			case 122:
 			case 90:
-				if (!atirou){
-					atirou = 1;
+				if (!atirouPlayer){
+					atirouPlayer = 1;
 					
 					xTiro = xPlayer;
 					yTiro = LINHAS - 2;	
