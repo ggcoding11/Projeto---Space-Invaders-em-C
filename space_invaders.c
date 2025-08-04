@@ -7,18 +7,22 @@
 #define LINHAS 15
 #define COLUNAS 30
 
-#define LINHASENEMY 4
+#define LINHASENEMY 3
 #define COLUNASENEMY 18
 
-#define VELTIROPLAYER 6
-#define VELTIROENEMY 8
+#define VELTIROPLAYER 2
+#define VELTIROENEMY 2
 
-#define VELENEMY 40
+#define VELENEMY 18
 
 void imprimirTelaInicio();
 void esconderCursor(); 
 void inicializarInimigos();
 void inicializarMapa(); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
+void construirArena();
+void configurarMovimento();
+void configurarTiros();
+void posicionarInimigos();
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
 void lerTeclaPlayer();
 int iniciarJogo();
@@ -133,9 +137,21 @@ void inicializarInimigos(){
 }
 
 void inicializarMapa(){
+		
+	construirArena();
+	
+	configurarMovimento();
+	
+	configurarTiros();
+	
+	posicionarInimigos();
+	
+	mapa[LINHAS - 1][xPlayer] = 'A'; 
+}
+
+void construirArena(){
 	int i,j;
 	
-	//Limpeza geral do mapa antes de preencher
 	for (i = 0; i < LINHAS; i++){
 		for (j = 0; j < COLUNAS; j++){
 			if ((j == 0) || (j == COLUNAS - 1)){
@@ -145,6 +161,10 @@ void inicializarMapa(){
 			}
 		}	
 	}
+}
+
+void configurarMovimento(){
+	int i, j;
 	
 	//Verificação das colunas limites para a colisão dos inimigos no limite do mapa
 	int achouLimite = 0;
@@ -213,9 +233,10 @@ void inicializarMapa(){
 			}
 		}
 	}	
-	
-	//Posicionamento do player
-	mapa[LINHAS - 1][xPlayer] = 'A'; 
+}
+
+void configurarTiros(){
+	int i, j;
 	
 	//Se o player atirouPlayer, fazer animação até o tiro sumir, aí libera o próximo
 	if (atirouPlayer){
@@ -238,7 +259,7 @@ void inicializarMapa(){
 		}	
 	}
 	
-	if ((contadorTurnos > 0) && (contadorTurnos % 46 == 0) && (!atirouEnemy)){
+	if ((contadorTurnos > 0) && (!atirouEnemy)){
 		int linhaAtirador = yEnemyInicio + (LINHASENEMY - 2);
 		int colAtirador;
 		
@@ -273,6 +294,10 @@ void inicializarMapa(){
 			}	
 		}
 	}
+}
+
+void posicionarInimigos(){
+	int i, j;
 	
 	//Posicionamento dos inimigos
 	for (i = 0; i < LINHASENEMY; i++){
