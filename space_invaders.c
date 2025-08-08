@@ -33,6 +33,7 @@ char mapa[LINHAS][COLUNAS];
 int matrizEnemy[LINHASENEMY][COLUNASENEMY];
 
 int xPlayer = 15;
+int yPlayer = LINHAS - 1;
 int xTiro, yTiro;
 int xTiroEnemy, yTiroEnemy;
 int xEnemyInicio = 2;
@@ -124,8 +125,6 @@ int iniciarJogo(){
 		lerTeclaPlayer();
 		
 		contadorTurnos++;
-		
-		Sleep(100);
 	}
 }
 
@@ -150,7 +149,7 @@ void inicializarMapa(){
 	
 	posicionarInimigos();
 	
-	mapa[LINHAS - 1][xPlayer] = 'A'; 
+	mapa[yPlayer][xPlayer] = 'A'; 
 }
 
 void construirArena(){
