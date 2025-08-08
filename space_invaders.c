@@ -20,8 +20,9 @@ void esconderCursor();
 void inicializarInimigos();
 void inicializarMapa(); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
 void construirArena();
-void configurarMovimento();
-void configurarTiros();
+void configurarMovimentoEnemy();
+void configurarTirosPlayer();
+void configurarTirosEnemy();
 void posicionarInimigos();
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
 void lerTeclaPlayer();
@@ -140,9 +141,10 @@ void inicializarMapa(){
 		
 	construirArena();
 	
-	configurarMovimento();
+	configurarMovimentoEnemy();
 	
-	configurarTiros();
+	configurarTirosPlayer();
+	configurarTirosEnemy();
 	
 	posicionarInimigos();
 	
@@ -163,7 +165,7 @@ void construirArena(){
 	}
 }
 
-void configurarMovimento(){
+void configurarMovimentoEnemy(){
 	int i, j;
 	
 	//Verificação das colunas limites para a colisão dos inimigos no limite do mapa
@@ -235,7 +237,7 @@ void configurarMovimento(){
 	}	
 }
 
-void configurarTiros(){
+void configurarTirosPlayer(){
 	int i, j;
 	
 	//Se o player atirouPlayer, fazer animação até o tiro sumir, aí libera o próximo
@@ -258,6 +260,12 @@ void configurarTiros(){
 			}	
 		}	
 	}
+}
+
+void configurarTirosEnemy(){
+	int i, j;
+	
+	
 	
 	if ((contadorTurnos > 0) && (!atirouEnemy)){
 		int linhaAtirador = yEnemyInicio + (LINHASENEMY - 2);
