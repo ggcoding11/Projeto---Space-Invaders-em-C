@@ -124,6 +124,8 @@ int iniciarJogo(){
 		lerTeclaPlayer();
 		
 		contadorTurnos++;
+		
+		Sleep(100);
 	}
 }
 
@@ -238,10 +240,9 @@ void configurarMovimentoEnemy(){
 }
 
 void configurarTirosPlayer(){
-	int i, j;
-	
 	//Se o player atirouPlayer, fazer animação até o tiro sumir, aí libera o próximo
 	if (atirouPlayer){
+		
 		int relX = xTiro - xEnemyInicio;
 		int relY = yTiro - yEnemyInicio;
 		
@@ -258,13 +259,11 @@ void configurarTirosPlayer(){
 			if (yTiro < 0){
 				atirouPlayer = 0;
 			}	
-		}	
+		}		
 	}
 }
 
 void configurarTirosEnemy(){
-	int i, j;
-	
 	if ((contadorTurnos > 0) && (!atirouEnemy)){
 		int linhaAtirador = yEnemyInicio + (LINHASENEMY - 1);
 		int colAtirador;
@@ -290,14 +289,21 @@ void configurarTirosEnemy(){
 	}
 	
 	if (atirouEnemy){
-		mapa[yTiroEnemy][xTiroEnemy] = 'o';
-	
-		if (contadorTurnos % VELTIROENEMY == 0){
-			yTiroEnemy++;
+		if ((atirouPlayer) && (xTiro == xTiroEnemy) && (yTiro == yTiroEnemy)){
+			mapa[yTiro][xTiro] = 'X';
 			
-			if (yTiroEnemy == LINHAS){
-				atirouEnemy = 0;
-			}	
+			atirouPlayer = 0;
+			atirouEnemy = 0;
+		} else {
+			mapa[yTiroEnemy][xTiroEnemy] = 'o';
+		
+			if (contadorTurnos % VELTIROENEMY == 0){
+				yTiroEnemy++;
+				
+				if (yTiroEnemy == LINHAS){
+					atirouEnemy = 0;
+				}	
+			}
 		}
 	}
 }
