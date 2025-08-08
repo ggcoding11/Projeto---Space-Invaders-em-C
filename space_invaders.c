@@ -265,10 +265,8 @@ void configurarTirosPlayer(){
 void configurarTirosEnemy(){
 	int i, j;
 	
-	
-	
 	if ((contadorTurnos > 0) && (!atirouEnemy)){
-		int linhaAtirador = yEnemyInicio + (LINHASENEMY - 2);
+		int linhaAtirador = yEnemyInicio + (LINHASENEMY - 1);
 		int colAtirador;
 		
 		int encontrou = 0;
