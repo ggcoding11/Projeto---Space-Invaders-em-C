@@ -10,12 +10,13 @@
 #define LINHASENEMY 3
 #define COLUNASENEMY 18
 
-#define VELTIROPLAYER 2
-#define VELTIROENEMY 2
+#define VELTIROPLAYER 4
+#define VELTIROENEMY 5
 
 #define VELENEMY 18
 
 void imprimirTelaInicio();
+void imprimirTelaMorte();
 void esconderCursor(); 
 void inicializarInimigos();
 void inicializarMapa(); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
@@ -32,19 +33,18 @@ char mapa[LINHAS][COLUNAS];
 
 int matrizEnemy[LINHASENEMY][COLUNASENEMY];
 
-int xPlayer = 15;
-int yPlayer = LINHAS - 1;
+int xPlayer, yPlayer ;
 int xTiro, yTiro;
 int xTiroEnemy, yTiroEnemy;
-int xEnemyInicio = 2;
-int yEnemyInicio = 0;
+int xEnemyInicio, yEnemyInicio;
 
-int atirouPlayer = 0;
-int atirouEnemy = 0;
+int atirouPlayer, atirouEnemy;
 
-int andarDireita = 1;
+int andarDireita;
 
-int contadorTurnos = 0;
+int contadorTurnos;
+
+int morreu, venceu;
 
 int main(){
 	srand(time(NULL));
@@ -57,7 +57,19 @@ int main(){
 		tecla = _getch(); 
 	} while (tecla != 13);
 	
-	iniciarJogo();
+	do {
+		iniciarJogo();
+		
+		system("cls");
+		
+		if (morreu) {
+			imprimirTelaMorte();
+			
+			do {
+				tecla = _getch();
+			} while ((tecla != 83) && (tecla != 115) && (tecla != 78) && (tecla != 110));
+		}
+	} while ((!venceu) && (morreu && ((tecla == 83 || tecla == 115))));
 
 	return 0;
 }
@@ -110,12 +122,75 @@ void imprimirTelaInicio(){
 	}
 }
 
+void imprimirTelaMorte(){
+	int i, j;
+	
+	for (i = 0; i < 50; i++){
+		printf("-");
+	}
+	
+	printf("\n");
+	
+	for (i = 0; i < 5; i++){
+		printf("|");
+		
+		if (i == 2){
+			for (j = 0; j < 19; j++){
+				printf(" ");
+			}
+			
+			printf("FIM DE JOGO");
+			
+			for (j = 0; j < 18; j++){
+				printf(" ");
+			}
+		} else {
+			if (i == 3){
+				for (j = 0; j < 14; j++){
+					printf(" ");
+				}
+				
+				printf("Deseja continuar? [S/N]");
+				
+				for (j = 0; j < 11; j++){
+					printf(" ");
+				}	
+			} else {
+				for (j = 1; j < 49; j++){		
+					printf(" ");
+				}
+			}		 	
+		}
+			
+		printf("|\n");
+	}
+	
+	for (i = 0; i < 50; i++){
+		printf("-");
+	}
+}
+
 int iniciarJogo(){
+	morreu = 0;
+	venceu = 0;
+	
+	xPlayer = 15;
+	yPlayer = LINHAS - 1;
+	xEnemyInicio = 2;
+	yEnemyInicio = 0;
+	
+	atirouPlayer = 0;
+	atirouEnemy = 0;
+	
+	andarDireita = 1;
+	
+	contadorTurnos = 0;
+	
 	esconderCursor();
 	
 	inicializarInimigos();
 		
-	while (1){
+	do {
 		system("cls");
 	
 		inicializarMapa();
@@ -125,7 +200,7 @@ int iniciarJogo(){
 		lerTeclaPlayer();
 		
 		contadorTurnos++;
-	}
+	} while (!morreu);
 }
 
 void inicializarInimigos(){
@@ -294,15 +369,19 @@ void configurarTirosEnemy(){
 			atirouPlayer = 0;
 			atirouEnemy = 0;
 		} else {
-			mapa[yTiroEnemy][xTiroEnemy] = 'o';
+			if ((xPlayer == xTiroEnemy) && (yPlayer == yTiroEnemy)){
+				morreu = 1;
+			} else {
+				mapa[yTiroEnemy][xTiroEnemy] = 'o';
 		
-			if (contadorTurnos % VELTIROENEMY == 0){
-				yTiroEnemy++;
-				
-				if (yTiroEnemy == LINHAS){
-					atirouEnemy = 0;
+				if (contadorTurnos % VELTIROENEMY == 0){
+					yTiroEnemy++;
+					
+					if (yTiroEnemy == LINHAS){
+						atirouEnemy = 0;
+					}	
 				}	
-			}
+			}	
 		}
 	}
 }
