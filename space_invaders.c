@@ -10,10 +10,10 @@
 #define LINHASENEMY 3
 #define COLUNASENEMY 18
 
-#define VELTIROPLAYER 4
+#define VELTIROPLAYER 3
 #define VELTIROENEMY 5
 
-#define VELENEMY 18
+#define VELENEMY 22
 
 void imprimirTelaInicio();
 void imprimirTelaMorte();
@@ -310,7 +310,14 @@ void configurarMovimentoEnemy(){
 				}
 			}
 		}
-	}	
+	}
+	
+	int relX = xPlayer - xEnemyInicio;
+	int relY = yPlayer - yEnemyInicio;
+	
+	if ((relX >= 0 && relX < COLUNASENEMY) && (relY >= 0 && relY < LINHASENEMY) && (matrizEnemy[relY][relX])){
+		morreu = 1;
+	}
 }
 
 void configurarTirosPlayer(){
