@@ -10,10 +10,10 @@
 #define LINHASENEMY 3
 #define COLUNASENEMY 18
 
-#define VELTIROPLAYER 3
+#define VELTIROPLAYER 1
 #define VELTIROENEMY 5
 
-#define VELENEMY 22
+#define VELENEMY 18
 
 void imprimirTelaInicio();
 void imprimirTelaMorte();
@@ -354,11 +354,11 @@ void configurarTirosEnemy(){
 		do {
 			colAtirador = xEnemyInicio + (rand() % COLUNASENEMY);
 			
-			while (linhaAtirador >= 0 && matrizEnemy[linhaAtirador][colAtirador] == 0){
+			while (linhaAtirador >= yEnemyInicio && matrizEnemy[linhaAtirador - yEnemyInicio][colAtirador - xEnemyInicio] == 0){
 				linhaAtirador--;
 			}	
 			
-			if (matrizEnemy[linhaAtirador][colAtirador]){
+			if (matrizEnemy[linhaAtirador - yEnemyInicio][colAtirador - xEnemyInicio] == 1){
 				encontrou = 1;
 			}
 		} while (!encontrou);
