@@ -7,7 +7,7 @@
 #define LINHAS 15
 #define COLUNAS 30
 
-#define LINHASENEMY 1
+#define LINHASENEMY 3
 #define COLUNASENEMY 18
 
 #define VELTIROPLAYER 1
@@ -195,12 +195,12 @@ void imprimirTelaVitoria(){
 			
 			printf("VOCE VENCEU!");
 			
-			for (j = 0; j < 18; j++){
+			for (j = 0; j < 17; j++){
 				printf(" ");
 			}
 		} else {
 			if (i == 3){
-				for (j = 0; j < 14; j++){
+				for (j = 0; j < 13; j++){
 					printf(" ");
 				}
 				
@@ -254,7 +254,7 @@ int iniciarJogo(){
 		lerTeclaPlayer();
 		
 		contadorTurnos++;
-	} while (!morreu);
+	} while (!morreu && !venceu);
 }
 
 void inicializarInimigos(){
@@ -276,9 +276,9 @@ void inicializarMapa(){
 	configurarTirosPlayer();
 	configurarTirosEnemy();
 	
-	verificarVitoria();
-	
 	posicionarInimigos();
+	
+	verificarVitoria();
 	
 	mapa[yPlayer][xPlayer] = 'A'; 
 }
@@ -450,26 +450,6 @@ void configurarTirosEnemy(){
 	}
 }
 
-void verificarVitoria(){
-	int i = 0, j = 0;
-	
-	int vivo = 0;
-	
-	for (i = 0; i < LINHASENEMY; i++){
-		for (j = 0; j < COLUNASENEMY; j++){
-			if (matrizEnemy[i][j]){
-				vivo = 1;
-				
-				break;
-			}		
-		}
-	}
-	
-	if (!vivo){
-		venceu = 1;
-	}
-}
-
 void posicionarInimigos(){
 	int i, j;
 	
@@ -487,6 +467,26 @@ void posicionarInimigos(){
 				break;
 			}
 		}
+	}
+}
+
+void verificarVitoria(){
+	int i, j;
+	
+	int vivo = 0;
+	
+	for (i = 0; i < LINHASENEMY; i++){
+		for (j = 0; j < COLUNASENEMY; j++){
+			if (matrizEnemy[i][j]){
+			   	vivo = 1;   
+				
+				break;
+			}		
+		}
+	}
+	
+	if (!vivo){
+		venceu = 1;
 	}
 }
 
