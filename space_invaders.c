@@ -7,7 +7,7 @@
 #define LINHAS 15
 #define COLUNAS 30
 
-#define LINHASENEMY 3
+#define LINHASENEMY 1
 #define COLUNASENEMY 18
 
 #define VELTIROPLAYER 1
@@ -17,6 +17,7 @@
 
 void imprimirTelaInicio();
 void imprimirTelaMorte();
+void imprimirTelaVitoria();
 void esconderCursor(); 
 void inicializarInimigos();
 void inicializarMapa(); //Esse vai criar a matriz  e definir as posições de todos, vai servir de base pro desenhar
@@ -24,6 +25,7 @@ void construirArena();
 void configurarMovimentoEnemy();
 void configurarTirosPlayer();
 void configurarTirosEnemy();
+void verificarVitoria();
 void posicionarInimigos();
 void desenharMapa(); // Esse vai desenhar cada quadro do jogo, então pra movimentar algo, basta eu trocar o espaço no vetor, o resto se desenha sozinho
 void lerTeclaPlayer();
@@ -68,6 +70,10 @@ int main(){
 			do {
 				tecla = _getch();
 			} while ((tecla != 83) && (tecla != 115) && (tecla != 78) && (tecla != 110));
+		}
+		
+		if (venceu) {
+			imprimirTelaVitoria();
 		}
 	} while ((!venceu) && (morreu && ((tecla == 83 || tecla == 115))));
 
@@ -170,6 +176,54 @@ void imprimirTelaMorte(){
 	}
 }
 
+void imprimirTelaVitoria(){
+	int i, j;
+	
+	for (i = 0; i < 50; i++){
+		printf("-");
+	}
+	
+	printf("\n");
+	
+	for (i = 0; i < 5; i++){
+		printf("|");
+		
+		if (i == 2){
+			for (j = 0; j < 19; j++){
+				printf(" ");
+			}
+			
+			printf("VOCE VENCEU!");
+			
+			for (j = 0; j < 18; j++){
+				printf(" ");
+			}
+		} else {
+			if (i == 3){
+				for (j = 0; j < 14; j++){
+					printf(" ");
+				}
+				
+				printf("Muito obrigado por jogar");
+				
+				for (j = 0; j < 11; j++){
+					printf(" ");
+				}	
+			} else {
+				for (j = 1; j < 49; j++){		
+					printf(" ");
+				}
+			}		 	
+		}
+			
+		printf("|\n");
+	}
+	
+	for (i = 0; i < 50; i++){
+		printf("-");
+	}
+}
+
 int iniciarJogo(){
 	morreu = 0;
 	venceu = 0;
@@ -221,6 +275,8 @@ void inicializarMapa(){
 	
 	configurarTirosPlayer();
 	configurarTirosEnemy();
+	
+	verificarVitoria();
 	
 	posicionarInimigos();
 	
@@ -346,12 +402,13 @@ void configurarTirosPlayer(){
 
 void configurarTirosEnemy(){
 	if ((contadorTurnos > 0) && (!atirouEnemy)){
-		int linhaAtirador = yEnemyInicio + (LINHASENEMY - 1);
+		int linhaAtirador;
 		int colAtirador;
 		
 		int encontrou = 0;
 		
 		do {
+			linhaAtirador = yEnemyInicio + (LINHASENEMY - 1);
 			colAtirador = xEnemyInicio + (rand() % COLUNASENEMY);
 			
 			while (linhaAtirador >= yEnemyInicio && matrizEnemy[linhaAtirador - yEnemyInicio][colAtirador - xEnemyInicio] == 0){
@@ -390,6 +447,26 @@ void configurarTirosEnemy(){
 				}	
 			}	
 		}
+	}
+}
+
+void verificarVitoria(){
+	int i = 0, j = 0;
+	
+	int vivo = 0;
+	
+	for (i = 0; i < LINHASENEMY; i++){
+		for (j = 0; j < COLUNASENEMY; j++){
+			if (matrizEnemy[i][j]){
+				vivo = 1;
+				
+				break;
+			}		
+		}
+	}
+	
+	if (!vivo){
+		venceu = 1;
 	}
 }
 
