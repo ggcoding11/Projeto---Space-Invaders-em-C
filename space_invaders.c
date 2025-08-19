@@ -11,9 +11,9 @@
 #define COLUNASENEMY 18
 
 #define VELTIROPLAYER 1
-#define VELTIROENEMY 5
+#define VELTIROENEMY 3
 
-#define VELENEMY 18
+#define VELENEMY 14
 
 void imprimirTelaInicio();
 void imprimirTelaMorte();
